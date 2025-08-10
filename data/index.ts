@@ -157,31 +157,17 @@ export const companies = [
 export const workExperience = [
   {
     id: 1,
-    title: "Frontend Engineer Intern",
-    desc: "Assisted in the development of a web-based platform using React.js, enhancing interactivity.",
+    title: "Frontend Developer (Remote)",
+    desc: "Developed and maintained internal web applications using React.js and Next.js, with styling done via Tailwind CSS. My responsibilities included creating new components, integrating APIs, and debugging existing features to improve user experience for internal staff. Gained exposure to Docker for containerized development.",
     className: "md:col-span-2",
     thumbnail: "/exp1.svg",
   },
   {
     id: 2,
-    title: "Mobile App Dev - JSM Tech",
-    desc: "Designed and developed mobile app for both iOS & Android platforms using React Native.",
-    className: "md:col-span-2", // change to md:col-span-2
-    thumbnail: "/exp2.svg",
-  },
-  {
-    id: 3,
-    title: "Freelance App Dev Project",
-    desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
-    className: "md:col-span-2", // change to md:col-span-2
-    thumbnail: "/exp3.svg",
-  },
-  {
-    id: 4,
-    title: "Lead Frontend Developer",
-    desc: "Developed and maintained user-facing features using modern frontend technologies.",
+    title: "Freelance Project - Car Marketplace Platform",
+    desc: "Developed the complete frontend for a car buying, selling, and rental platform using Next.js and JavaScript. I translated complex UI designs into a fully functional application, built reusable components, and integrated all necessary APIs for features like user profiles, chat functionality, and premium ad plans. This project showcased my ability to manage a full-scale frontend development lifecycle.",
     className: "md:col-span-2",
-    thumbnail: "/exp4.svg",
+    thumbnail: "/exp2.svg",
   },
 ];
 

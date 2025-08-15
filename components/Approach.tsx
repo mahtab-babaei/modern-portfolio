@@ -3,7 +3,7 @@ import React from "react";
 
 import { AnimatePresence, motion } from "motion/react";
 import { CanvasRevealEffect } from "@/components/ui/CanvasRevealEffect";
-import { div } from "motion/react-client";
+// import { div } from "motion/react-client";
 
 const Approach = () => {
   return (
@@ -125,7 +125,9 @@ const AceternityIcon = ({ order }: { order: string }) => {
   );
 };
 
-export const Icon = ({ className, ...rest }: any) => {
+type IconProps = React.SVGProps<SVGSVGElement>;
+
+export const Icon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

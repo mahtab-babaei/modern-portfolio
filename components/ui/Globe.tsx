@@ -6,6 +6,7 @@ import { useThree, Canvas, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import countries from "@/data/globe.json";
+
 declare module "@react-three/fiber" {
   interface ThreeElements {
     threeGlobe: ThreeElements["mesh"] & {
@@ -61,8 +62,6 @@ interface WorldProps {
   data: Position[];
 }
 
-// const numbersOfRings = [0];
-
 export function Globe({ globeConfig, data }: WorldProps) {
   const globeRef = useRef<ThreeGlobe | null>(null);
   const groupRef = useRef<THREE.Group | null>(null);
@@ -117,7 +116,6 @@ export function Globe({ globeConfig, data }: WorldProps) {
   ]);
 
   // Build data when globe is initialized or when data changes
-  // Build data when globe is initialized or when data changes
   useEffect(() => {
     if (!globeRef.current || !isInitialized || !data) return;
 
@@ -162,21 +160,21 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     globeRef.current
       .arcsData(data)
-      .arcStartLat((d: Position) => d.startLat * 1)
-      .arcStartLng((d: Position) => d.startLng * 1)
-      .arcEndLat((d: Position) => d.endLat * 1)
-      .arcEndLng((d: Position) => d.endLng * 1)
-      .arcColor((e: Position) => e.color)
-      .arcAltitude((e: Position) => e.arcAlt * 1)
+      .arcStartLat((d: unknown) => (d as Position).startLat * 1)
+      .arcStartLng((d: unknown) => (d as Position).startLng * 1)
+      .arcEndLat((d: unknown) => (d as Position).endLat * 1)
+      .arcEndLng((d: unknown) => (d as Position).endLng * 1)
+      .arcColor((e: unknown) => (e as Position).color)
+      .arcAltitude((e: unknown) => (e as Position).arcAlt * 1)
       .arcStroke(() => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
       .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((e: Position) => e.order * 1)
+      .arcDashInitialGap((e: unknown) => (e as Position).order * 1)
       .arcDashGap(15)
       .arcDashAnimateTime(() => defaultProps.arcTime);
 
     globeRef.current
       .pointsData(filteredPoints)
-      .pointColor((e: Position) => e.color)
+      .pointColor((e: unknown) => (e as Position).color)
       .pointsMerge(true)
       .pointAltitude(0.0)
       .pointRadius(2);
@@ -242,7 +240,7 @@ export function WebGLRendererConfig() {
     gl.setPixelRatio(window.devicePixelRatio);
     gl.setSize(size.width, size.height);
     gl.setClearColor(0xffaaff, 0);
-  }, []);
+  }, [gl, size.width, size.height]);
 
   return null;
 }
@@ -270,7 +268,7 @@ export function World(props: WorldProps) {
       />
       <Globe {...props} />
       <OrbitControls
-        enablePan={false}
+        enablePan={false)
         enableZoom={false}
         minDistance={cameraZ}
         maxDistance={cameraZ}

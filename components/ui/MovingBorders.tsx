@@ -13,12 +13,12 @@ import { cn } from "@/lib/utils";
 interface ButtonProps {
   borderRadius?: string;
   children: React.ReactNode;
-  as?: React.ComponentType<React.PropsWithChildren<unknown>> | keyof JSX.IntrinsicElements; // اصلاح نوع as
+  as?: React.ElementType; 
   containerClassName?: string;
   borderClassName?: string;
   duration?: number;
   className?: string;
-  [key: string]: unknown; 
+  [key: string]: any; 
 }
 
 export function Button({
@@ -76,7 +76,7 @@ interface MovingBorderProps {
   duration?: number;
   rx?: string;
   ry?: string;
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 export const MovingBorder = ({

@@ -203,7 +203,7 @@ const ShaderMaterial = ({
     }
     lastFrameTime = timestamp;
 
-    const material = ref.current.material;
+    const material = ref.current.material as THREE.ShaderMaterial; // Type Assertion
     const timeLocation = material.uniforms.u_time;
     timeLocation.value = timestamp;
   });

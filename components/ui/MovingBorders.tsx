@@ -6,29 +6,41 @@ import {
   useMotionTemplate,
   useMotionValue,
   useTransform,
-} from "motion/react";
+} from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
-export function Button({
+// تعریف تایپ‌های پلی مورفیک به صورت ایمن
+type ButtonProps<T extends React.ElementType> = {
+  borderRadius?: string;
+  children: React.ReactNode;
+  as?: T;
+  containerClassName?: string;
+  borderClassName?: string;
+  duration?: number;
+  className?: string;
+} & Omit<React.ComponentPropsWithoutRef<T>, "as" | "children" | keyof ButtonBaseProps>;
+
+// تایپ‌های پایه بدون جنریک
+type ButtonBaseProps = {
+  borderRadius?: string;
+  children: React.ReactNode;
+  containerClassName?: string;
+  borderClassName?: string;
+  duration?: number;
+  className?: string;
+};
+
+export function Button<T extends React.ElementType = "button">({
   borderRadius = "1.75rem",
   children,
-  as: Component = "button",
+  as: Component = "button" as T,
   containerClassName,
   borderClassName,
   duration,
   className,
   ...otherProps
-}: {
-  borderRadius?: string;
-  children: React.ReactNode;
-  as?: any;
-  containerClassName?: string;
-  borderClassName?: string;
-  duration?: number;
-  className?: string;
-  [key: string]: any;
-}) {
+}: ButtonProps<T>) {
   return (
     <Component
       className={cn(
@@ -80,27 +92,29 @@ export const MovingBorder = ({
   duration?: number;
   rx?: string;
   ry?: string;
-  [key: string]: any;
-}) => {
-  const pathRef = useRef<any>(undefined);
+} & React.SVGProps<SVGSVGElement>) => {
+  // استفاده از تایپ صحیح برای rect
+  const pathRef = useRef<SVGRectElement | null>(null);
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {
-    const length = pathRef.current?.getTotalLength();
-    if (length) {
-      const pxPerMillisecond = length / duration;
-      progress.set((time * pxPerMillisecond) % length);
+    // بررسی وجود متد getTotalLength
+    if (pathRef.current && typeof pathRef.current.getTotalLength === "function") {
+      const length = pathRef.current.getTotalLength();
+      if (length) {
+        const pxPerMillisecond = length / duration;
+        progress.set((time * pxPerMillisecond) % length);
+      }
     }
   });
 
-  const x = useTransform(
-    progress,
-    (val) => pathRef.current?.getPointAtLength(val).x
-  );
-  const y = useTransform(
-    progress,
-    (val) => pathRef.current?.getPointAtLength(val).y
-  );
+  const x = useTransform(progress, (val) => {
+    return pathRef.current?.getPointAtLength(val)?.x || 0;
+  });
+  
+  const y = useTransform(progress, (val) => {
+    return pathRef.current?.getPointAtLength(val)?.y || 0;
+  });
 
   const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
 
@@ -114,6 +128,7 @@ export const MovingBorder = ({
         height="100%"
         {...otherProps}
       >
+        {/* ref را مستقیماً به rect منتقل می‌کنیم */}
         <rect
           fill="none"
           width="100%"

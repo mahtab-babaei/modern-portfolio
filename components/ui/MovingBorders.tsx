@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { JSX } from "react";
 import {
   motion,
   useAnimationFrame,
@@ -13,18 +13,18 @@ import { cn } from "@/lib/utils";
 interface ButtonProps {
   borderRadius?: string;
   children: React.ReactNode;
-  as?: React.ElementType; 
+  as?: React.ComponentType<React.PropsWithChildren<any>> | keyof JSX.IntrinsicElements; // اصلاح نوع as
   containerClassName?: string;
   borderClassName?: string;
   duration?: number;
   className?: string;
-  [key: string]: unknown; 
+  [key: string]: any; // برای پراپ‌های اضافی
 }
 
 export function Button({
   borderRadius = "1.75rem",
   children,
-  as: Component = "button", 
+  as: Component = "button",
   containerClassName,
   borderClassName,
   duration,
@@ -76,7 +76,7 @@ interface MovingBorderProps {
   duration?: number;
   rx?: string;
   ry?: string;
-  [key: string]: unknown; 
+  [key: string]: any;
 }
 
 export const MovingBorder = ({

@@ -1,5 +1,5 @@
 "use client";
-import React, { JSX } from "react";
+import React from "react";
 import {
   motion,
   useAnimationFrame,
@@ -10,15 +10,14 @@ import {
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
-interface ButtonProps {
+interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   borderRadius?: string;
   children: React.ReactNode;
-  as?: React.ElementType; 
+  as?: React.ElementType;
   containerClassName?: string;
   borderClassName?: string;
   duration?: number;
   className?: string;
-  [key: string]: any; 
 }
 
 export function Button({
@@ -71,12 +70,11 @@ export function Button({
   );
 }
 
-interface MovingBorderProps {
+interface MovingBorderProps extends React.SVGAttributes<SVGSVGElement> {
   children: React.ReactNode;
   duration?: number;
   rx?: string;
   ry?: string;
-  [key: string]: any;
 }
 
 export const MovingBorder = ({

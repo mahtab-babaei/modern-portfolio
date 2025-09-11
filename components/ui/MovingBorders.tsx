@@ -10,7 +10,6 @@ import {
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
-// تعریف تایپ‌های پلی مورفیک به صورت ایمن
 type ButtonProps<T extends React.ElementType> = {
   borderRadius?: string;
   children: React.ReactNode;
@@ -19,17 +18,7 @@ type ButtonProps<T extends React.ElementType> = {
   borderClassName?: string;
   duration?: number;
   className?: string;
-} & Omit<React.ComponentPropsWithoutRef<T>, "as" | "children" | keyof ButtonBaseProps>;
-
-// تایپ‌های پایه بدون جنریک
-type ButtonBaseProps = {
-  borderRadius?: string;
-  children: React.ReactNode;
-  containerClassName?: string;
-  borderClassName?: string;
-  duration?: number;
-  className?: string;
-};
+} & Omit<React.ComponentPropsWithoutRef<T>, "as" | "children">;
 
 export function Button<T extends React.ElementType = "button">({
   borderRadius = "1.75rem",
@@ -93,12 +82,10 @@ export const MovingBorder = ({
   rx?: string;
   ry?: string;
 } & React.SVGProps<SVGSVGElement>) => {
-  // استفاده از تایپ صحیح برای rect
   const pathRef = useRef<SVGRectElement | null>(null);
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {
-    // بررسی وجود متد getTotalLength
     if (pathRef.current && typeof pathRef.current.getTotalLength === "function") {
       const length = pathRef.current.getTotalLength();
       if (length) {
@@ -111,7 +98,7 @@ export const MovingBorder = ({
   const x = useTransform(progress, (val) => {
     return pathRef.current?.getPointAtLength(val)?.x || 0;
   });
-  
+
   const y = useTransform(progress, (val) => {
     return pathRef.current?.getPointAtLength(val)?.y || 0;
   });
@@ -128,7 +115,6 @@ export const MovingBorder = ({
         height="100%"
         {...otherProps}
       >
-        {/* ref را مستقیماً به rect منتقل می‌کنیم */}
         <rect
           fill="none"
           width="100%"

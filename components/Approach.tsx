@@ -64,17 +64,19 @@ const Card = ({
 }) => {
   const [isActive, setIsActive] = React.useState(false);
 
-  // Toggle state on click/tap for mobile and hover for desktop
+  // Toggle state for click/tap on mobile
   const handleToggle = () => {
     setIsActive((prev) => !prev);
   };
 
+  // Detect if device is likely mobile based on screen width
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   return (
     <div
-      onMouseEnter={() => setIsActive(true)}
-      onMouseLeave={() => setIsActive(false)}
-      onClick={handleToggle}
-      onTouchStart={handleToggle}
+      onMouseEnter={() => !isMobile && setIsActive(true)}
+      onMouseLeave={() => !isMobile && setIsActive(false)}
+      onClick={isMobile ? handleToggle : undefined}
       className="border border-black/[0.2] group/canvas-card flex items-center justify-center dark:border-white/[0.2] max-w-sm w-full mx-auto p-4 lg:h-[35rem] rounded-3xl relative"
     >
       <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
@@ -96,14 +98,24 @@ const Card = ({
       </AnimatePresence>
 
       <div className="relative z-20">
-        <div className="text-center group-hover/canvas-card:-translate-y-4 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] group-hover/canvas-card:opacity-0 transition duration-200 w-full mx-auto flex items-center justify-center">
+        <div
+          className={`text-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] transition duration-200 w-full mx-auto flex items-center justify-center ${
+            isActive ? "opacity-0 -translate-y-4" : "opacity-100"
+          }`}
+        >
           {icon}
         </div>
-        <h2 className="text-center dark:text-white text-3xl opacity-0 group-hover/canvas-card:opacity-100 relative z-10 text-black mt-4 font-bold group-hover/canvas-card:text-white group-hover/canvas-card:-translate-y-2 transition duration-200">
+        <h2
+          className={`text-center dark:text-white text-3xl relative z-10 text-black mt-4 font-bold transition duration-200 ${
+            isActive ? "opacity-100 -translate-y-2 text-white" : "opacity-0"
+          }`}
+        >
           {title}
         </h2>
         <h2
-          className="text-sm text-center dark:text-white opacity-0 group-hover/canvas-card:opacity-100 relative z-10 text-black mt-4 font-bold group-hover/canvas-card:text-white group-hover/canvas-card:-translate-y-2 transition duration-200"
+          className={`text-sm text-center dark:text-white relative z-10 text-black mt-4 font-bold transition duration-200 ${
+            isActive ? "opacity-100 -translate-y-2 text-white" : "opacity-0"
+          }`}
           style={{ color: "#efecff" }}
         >
           {des}
